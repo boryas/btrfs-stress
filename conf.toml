@@ -1,0 +1,16 @@
+[global]
+directory = "/mnt/lol"
+fstests = "/mnt/repos/fstests"
+dry_run = false
+duration = 5
+
+[fsx]
+procs = 8
+
+[fsstress]
+procs = 8
+
+[btrfs]
+progs = "/home/vmuser/btrfs-progs"
+balance = true
+reflink = false
