@@ -2,7 +2,11 @@
 directory = "/mnt/lol"
 fstests = "/mnt/repos/fstests"
 dry_run = false
-duration = 5
+# 72 hours
+#duration = 259200
+duration = 3600
+umount_retries = 10
+debug = true
 
 [fsx]
 procs = 8
@@ -11,6 +15,10 @@ procs = 8
 procs = 8
 
 [btrfs]
+#progs = "/mnt/repos/btrfs-progs"
 progs = "/home/vmuser/btrfs-progs"
 balance = true
 reflink = false
+
+[system]
+drop_caches = false

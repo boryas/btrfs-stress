@@ -51,10 +51,14 @@ def validate_config(config):
 def test_optional_config(section, field):
     return field in section and section[field]
 
-def get_optional_config(section, field):
+def get_optional_config(section, field, default=None):
     if field in section:
         return section[field]
-    return None
+    return default
+
+def dbg(config, msg):
+    if get_optional_config(config["global"], "debug"):
+        print(msg)
 
 def get_btrfs_util(config):
     path = ""
@@ -63,3 +67,6 @@ def get_btrfs_util(config):
         if progs:
             path = progs
     return os.path.join(path, "btrfs")
+
+def get_directory(config):
+    return config["global"]["directory"]
