@@ -1,24 +1,46 @@
 [global]
 directory = "/mnt/lol"
 fstests = "/mnt/repos/fstests"
+btrfs_progs = "/home/vmuser/btrfs-progs"
 dry_run = false
 # 72 hours
-#duration = 259200
-duration = 3600
+duration = 259200
+#duration = 3600
 umount_retries = 10
 debug = true
 
-[fsx]
+# fsx stressor runs fsx
+[stressors.fsx]
 procs = 8
 
-[fsstress]
+# fsstress stressor runs fsstress
+[stressors.fsstress]
+procs = 1
+args = [ "-n", "100000", "-p", "8", "-c"]
+
+# balance stressor runs a loop of
+# - btrfs balance start -dusage=100
+[stressors.btrfs_balance]
+procs = 1
+args = [ "-dusage=100" ]
+
+# reflink stressor runs a loop of
+# - grab a random file in directory
+# - reflink it to a known location (per proc)
+# - sleep
+# - delete it
+[stressors.reflink]
 procs = 8
 
-[btrfs]
-#progs = "/mnt/repos/btrfs-progs"
-progs = "/home/vmuser/btrfs-progs"
-balance = true
-reflink = false
+# snapshot stressor runs a loop of
+# - grab a random subvol in directory
+# - snapshot it to a fixed subvol per proc
+# - sleep
+# - delete it
+[stressors.snapshot]
+procs = 2
 
-[system]
-drop_caches = false
+# drop_caches stressor runs a loop of
+# - echo 3 > /proc/sys/vm/drop_caches
+[stressors.drop_caches]
+procs = 1
